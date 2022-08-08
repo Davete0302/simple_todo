@@ -1,25 +1,29 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import MainNavigation from './Screens/Navigation/MainNav';
+import PrivacyPolicy from './Screens/Pages/PrivacyPolicy';
+import Tos from './Screens/Pages/Tos';
+import Todo from './Screens/Pages/Todo/Todo';
+
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+
+    <BrowserRouter>
+    <MainNavigation/>
+    <Routes>
+      <Route path="/" element={<Todo />}/>
+      <Route path="/termsandconditions" element={<Tos />} />
+      <Route path="/privacyandpolicy" element={<PrivacyPolicy />} />
+   
+        
+    </Routes>
+  </BrowserRouter>
   );
 }
 
