@@ -1,22 +1,25 @@
-FROM node:14-alpine AS builder
-# Add a work directory
-WORKDIR /app
-# Cache and Install dependencies
-COPY package.json .
-# Copy app files
-Run npm install
+FROM node:16-alpine as development
+
+WORKDIR /usr/src/app
+
+COPY package*.json .
+
+RUN npm install
 
 COPY . .
-# Build the app
-Run npm start
 
-# Bundle static assets with nginx
-FROM nginx:1.21.0-alpine as production
+RUN npm run build
 
-# Copy built assets from builder
-COPY --from=builder /app/build /usr/share/nginx/html
+FROM node:16-alpine as production
 
-# Expose port
-EXPOSE 80
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"]
+ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
+
+WORKDIR /usr/src/app
+
+COPY package*.json .
+
+RUN npm install
+
+
+CMD ["npm", "start"]
